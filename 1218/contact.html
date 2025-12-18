@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聯繫我們 | MODERN BIZ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+    <nav class="bg-slate-900 border-b border-slate-800 text-white h-16 flex items-center">
+        <div class="max-w-7xl mx-auto px-4 w-full flex justify-between">
+            <a href="index.html" class="font-bold text-blue-400">MODERN BIZ</a>
+            <div class="space-x-4">
+                <a href="index.html">首頁</a>
+                <a href="contact.html" class="text-blue-400">聯繫我們</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="py-20 max-w-7xl mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">聯繫我們</h2>
+                <p class="text-gray-400 mb-8">如有任何問題，請填寫表單，我們將在 24 小時內回覆。</p>
+                <div class="space-y-4">
+                    <p>📍 台北市信義區美學路 88 號</p>
+                    <p>📞 (02) 2345-6789</p>
+                </div>
+            </div>
+            <form class="space-y-4">
+                <input type="text" placeholder="姓名" class="w-full p-3 rounded bg-slate-800 border border-slate-700">
+                <textarea placeholder="您的訊息" rows="4" class="w-full p-3 rounded bg-slate-800 border border-slate-700"></textarea>
+                <button type="button" onclick="alert('訊息已送出！')" class="w-full bg-blue-600 py-3 rounded font-bold">送出訊息</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

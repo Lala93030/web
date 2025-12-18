@@ -1,0 +1,108 @@
+<!DOCTYPE<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>品牌小遊戲 | MODERN BIZ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; }
+    </style>
+</head>
+<body class="bg-blue-50 text-slate-800 min-h-screen">
+    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <span class="text-xl font-bold tracking-wider text-blue-400">MODERN BIZ</span>
+            <div class="hidden md:flex space-x-4">
+                <a href="index.html" class="px-3 py-2 hover:text-blue-400 text-sm font-medium">首頁</a>
+                <a href="about.html" class="px-3 py-2 hover:text-blue-400 text-sm font-medium">關於公司</a>
+                <a href="products.html" class="px-3 py-2 hover:text-blue-400 text-sm font-medium">商品介紹</a>
+                <a href="faq.html" class="px-3 py-2 hover:text-blue-400 text-sm font-medium">常見問題</a>
+                <a href="game.html" class="px-3 py-2 text-blue-400 text-sm font-medium">品牌小遊戲</a>
+                <a href="contact.html" class="px-3 py-2 bg-blue-600 rounded text-sm font-medium">聯繫我們</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="py-16 text-center px-4">
+        <h2 class="text-3xl font-bold mb-4 text-slate-900">品牌記憶力挑戰</h2>
+        <p class="text-gray-500 mb-10 max-w-lg mx-auto italic">翻開隱藏在方塊後的品牌商品標誌，找出成雙成對的組合，測試您的居家美感直覺！</p>
+        
+        <!-- 修復後的遊戲棋盤：格線固定、置中 -->
+        <div id="game-board" class="grid grid-cols-4 gap-4 max-w-sm md:max-w-md mx-auto bg-white p-6 rounded-2xl shadow-xl border-4 border-white">
+            <!-- 由 JS 生成卡片 -->
+        </div>
+
+        <button onclick="initGame()" class="mt-12 bg-blue-600 text-white px-10 py-3 rounded-full font-bold hover:bg-blue-700 transition shadow-lg flex items-center mx-auto">
+            <i data-lucide="refresh-cw" class="w-5 h-5 mr-2"></i> 重新開始遊戲
+        </button>
+    </section>
+
+    <script>
+        lucide.createIcons();
+        const emojis = ['🪑', '🛋️', '💡', '🖥️', '📦', '🖼️', '🪑', '🛋️', '💡', '🖥️', '📦', '🖼️'];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let isProcessing = false;
+
+        function initGame() {
+            const board = document.getElementById('game-board');
+            board.innerHTML = '';
+            flippedCards = [];
+            matchedPairs = 0;
+            isProcessing = false;
+            
+            // 洗牌
+            const shuffled = [...emojis].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach((emoji) => {
+                const card = document.createElement('div');
+                card.className = 'aspect-square bg-blue-500 flex items-center justify-center text-3xl text-white cursor-pointer rounded-xl shadow transform transition-all duration-300 hover:scale-105 select-none';
+                card.dataset.emoji = emoji;
+                card.innerHTML = '?';
+                card.onclick = () => flipCard(card);
+                board.appendChild(card);
+            });
+        }
+
+        function flipCard(card) {
+            if (isProcessing || flippedCards.includes(card) || card.classList.contains('matched')) return;
+            
+            card.innerHTML = card.dataset.emoji;
+            card.classList.replace('bg-blue-500', 'bg-white');
+            card.classList.add('text-slate-900', 'border-2', 'border-blue-500');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                isProcessing = true;
+                setTimeout(checkMatch, 700);
+            }
+        }
+
+        function checkMatch() {
+            const [c1, c2] = flippedCards;
+            if (c1.dataset.emoji === c2.dataset.emoji) {
+                c1.classList.add('matched', 'opacity-50');
+                c2.classList.add('matched', 'opacity-50');
+                matchedPairs++;
+                if (matchedPairs === emojis.length / 2) {
+                    setTimeout(() => alert('挑戰成功！您的記憶力與美感兼具！'), 300);
+                }
+            } else {
+                c1.innerHTML = '?';
+                c2.innerHTML = '?';
+                c1.classList.replace('bg-white', 'bg-blue-500');
+                c1.classList.remove('text-slate-900', 'border-2', 'border-blue-500');
+                c2.classList.replace('bg-white', 'bg-blue-500');
+                c2.classList.remove('text-slate-900', 'border-2', 'border-blue-500');
+            }
+            flippedCards = [];
+            isProcessing = false;
+        }
+
+        window.onload = initGame;
+    </script>
+</body>
+</html>
